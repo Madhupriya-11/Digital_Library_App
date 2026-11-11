@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request,redirect
 import requests
 import sqlite3
 
@@ -80,3 +80,27 @@ def qna():
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
+
+# ---------------------------------------------------------
+# ROUTE 4: Teacher Material Upload (SQLite Insert)
+# ---------------------------------------------------------
+@app.route('/upload_note', methods=['POST'])
+def upload_note():
+    title = request.form.get('title')
+    subject = request.form.get('subject')
+    class_level = request.form.get('class_level')
+    pdf_link = request.form.get('pdf_link')
+
+    if title and pdf_link:
+        conn = sqlite3.connect('library.db')
+        cursor = conn.cursor()
+        
+        cursor.execute('''
+            INSERT INTO notes (title, subject, class_level, pdf_link)
+            VALUES (?, ?, ?, ?)
+        ''', (title, subject, class_level, pdf_link))
+        
+        conn.commit()
+        conn.close()
+
+    return redirect('/notes')    
