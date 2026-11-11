@@ -1,1 +1,44 @@
-<h1>Backend is Live and Ready!</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Digital Library App</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f4f4f9; color: #333; }
+        h1, h2 { color: #2c3e50; }
+        .card { background: white; padding: 15px; margin-bottom: 10px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        form { background: white; padding: 20px; border-radius: 5px; margin-top: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        input, button { padding: 10px; margin: 5px 0; width: 100%; box-sizing: border-box; }
+        button { background: #3498db; color: white; border: none; cursor: pointer; border-radius: 3px; }
+        button:hover { background: #2980b9; }
+    </style>
+</head>
+<body>
+
+    <h1>Digital Library & Study Portal</h1>
+
+    <h2>Offline NCERT Notes</h2>
+    {% for note in notes %}
+    <div class="card">
+        <strong>{{ note.title }}</strong><br>
+        <small>Subject: {{ note.subject }} | Class: {{ note.class_level }}</small>
+    </div>
+    {% endfor %}
+
+    <h2>Student Q&A / Doubts</h2>
+    {% for q in qna %}
+    <div class="card">
+        <p><strong>{{ q.question }}</strong></p>
+        <small>Asked by: {{ q.author }} on {{ q.created_at }}</small>
+    </div>
+    {% endfor %}
+
+    <form action="/add_doubt" method="POST">
+        <h3>Ask a Doubt</h3>
+        <input type="text" name="question" placeholder="Type your question here..." required>
+        <input type="text" name="author" placeholder="Your Name" required>
+        <button type="submit">Submit Doubt</button>
+    </form>
+
+</body>
+</html>
