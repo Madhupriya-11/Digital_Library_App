@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from database import get_all_notes, get_all_qna, add_question, init_db, seed_data
+from database import get_all_notes, get_all_qna, add_question, add_answer, init_db, seed_data
 import sqlite3
 
 app = Flask(__name__)
@@ -50,6 +50,13 @@ def add_doubt():
     author = request.form.get('author', 'Anonymous')
     if question:
         add_question(question, author)
+    return redirect(url_for('index'))
+@app.route('/answer_doubt', methods=['POST'])
+def answer_doubt():
+    qna_id = request.form.get('qna_id')
+    answer = request.form.get('answer')
+    if qna_id and answer:
+        add_answer(qna_id, answer)
     return redirect(url_for('index'))
 
 if __name__ == '__main__':

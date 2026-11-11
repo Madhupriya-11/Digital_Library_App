@@ -27,7 +27,8 @@ def init_db():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             question TEXT NOT NULL,
             author TEXT NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            answer TEXT
         )
     """)
     
@@ -88,3 +89,10 @@ def add_question(question, author):
 if __name__ == "__main__":
     init_db()
     seed_data()
+
+def add_answer(qna_id, answer_text):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE qna SET answer = ? WHERE id = ?", (answer_text, qna_id))
+    conn.commit()
+    conn.close()

@@ -74,39 +74,50 @@
                 </div>
             </div>
 
-            <!-- 4. STUDENT Q&A / DOUBT CLEARING FORUM -->
-            <div class="col-md-6 mb-4">
-                <div class="card p-4 shadow-sm mb-4">
-                    <h4 class="text-warning text-dark mb-3">❓ Ask a Doubt</h4>
-                    <form action="/add_doubt" method="POST">
-                        <div class="mb-3">
-                            <input type="text" name="author" class="form-control" placeholder="Your Name (e.g. Rahul)" required>
-                        </div>
-                        <div class="mb-3">
-                            <textarea name="question" class="form-control" rows="2" placeholder="Write your question/doubt here..." required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-warning w-100">Post Doubt</button>
-                    </form>
-                </div>
+     <!-- 4. STUDENT Q&A / DOUBT CLEARING FORUM -->
+        <div class="col-md-6 mb-4">
+            <div class="card p-4 shadow-sm mb-4">
+                <h4 class="text-warning text-dark mb-3">❓ Ask a Doubt</h4>
+                <form action="/add_doubt" method="POST">
+                    <div class="mb-3">
+                        <input type="text" name="author" class="form-control" placeholder="Your Name (e.g. Rahul)">
+                    </div>
+                    <div class="mb-3">
+                        <textarea name="question" class="form-control" rows="2" placeholder="Write your question/doubt here..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-warning w-100">Post Doubt</button>
+                </form>
+            </div>
 
-                <div class="card p-4 shadow-sm">
-                    <h5 class="mb-3">💬 Recent Doubts & Questions</h5>
-                    {% if qna %}
-                        {% for q in qna %}
-                        <div class="border-bottom pb-2 mb-2">
-                            <strong>{{ q[1] }}</strong>
-                            <p class="mb-1 text-secondary">{{ q[2] }}</p>
-                            <small class="text-muted">Asked on: {{ q[3] }}</small>
-                        </div>
-                        {% endfor %}
-                    {% else %}
-                        <p class="text-muted">No doubts posted yet. Be the first to ask!</p>
-                    {% endif %}
-                </div>
+            <div class="card p-4 shadow-sm">
+                <h5 class="mb-3">💬 Recent Doubts & Questions</h5>
+                {% if qna %}
+                    {% for q in qna %}
+                    <div class="border-bottom pb-3 mb-3">
+                        <strong>{{ q['author'] if q['author'] else q[2] }}</strong>
+                        <p class="mb-1 text-secondary">{{ q['question'] if q['question'] else q[1] }}</p>
+                        <small class="text-muted d-block mb-2">Asked on: {{ q['created_at'] if q['created_at'] else q[3] }}</small>
+
+                        {% if q['answer'] %}
+                            <div class="p-2 bg-light border-start border-success border-3 ms-3">
+                                <strong class="text-success">Teacher's Answer:</strong>
+                                <p class="mb-0 text-dark">{{ q['answer'] }}</p>
+                            </div>
+                        {% else %}
+                            <form action="/answer_doubt" method="POST" class="d-flex gap-2 ms-3 mt-2">
+                                <input type="hidden" name="qna_id" value="{{ q['id'] if q['id'] else q[0] }}">
+                                <input type="text" name="answer" class="form-control form-control-sm" placeholder="Teacher: Write an answer..." required>
+                                <button type="submit" class="btn btn-sm btn-outline-success">Reply</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted">No doubts posted yet. Be the first to ask!</p>
+                {% endif %}
             </div>
         </div>
-
     </div>
-
+</div>
 </body>
-</html>
+</html>       
