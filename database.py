@@ -42,10 +42,10 @@ def seed_data():
     cursor.execute("SELECT COUNT(*) FROM notes")
     if cursor.fetchone()[0] == 0:
         sample_notes = [
-            ("Class 10 Science Notes", "Science", "Class 10", "#"),
-            ("Kannada Grammar Reference", "Kannada", "Class 9", "#"),
-            ("Class 8 Mathematics Formulas", "Math", "Class 8", "#"),
-            ("Class 10 Social Science Summary", "Social Science", "Class 10", "#")
+            ("Class 10 Science Notes", "Science", "Class 10", "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"),
+            ("Kannada Grammar Reference", "Kannada", "Class 9", "https://ncert.nic.in/textbook.php"),
+            ("Class 8 Mathematics Formulas", "Math", "Class 8", "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"),
+            ("Class 10 Social Science Summary", "Social Science", "Class 10", "https://ncert.nic.in/textbook.php")
         ]
         cursor.executemany("""
             INSERT INTO notes (title, subject, class_level, pdf_link)
